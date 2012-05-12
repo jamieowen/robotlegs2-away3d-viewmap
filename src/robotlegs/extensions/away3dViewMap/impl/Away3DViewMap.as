@@ -4,20 +4,16 @@
 // NOTICE: You are permitted to use, modify, and distribute this file
 // in accordance with the terms of the license agreement accompanying it.
 // ------------------------------------------------------------------------------
+
 package robotlegs.extensions.away3dViewMap.impl
 {
-	import away3d.containers.Scene3D;
 	import away3d.containers.ObjectContainer3D;
-	import away3d.events.Scene3DEvent;
+	import away3d.containers.Scene3D;
 	import away3d.containers.View3D;
-	import robotlegs.bender.extensions.mediatorMap.api.IMediatorFactory;
-	import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
-	import robotlegs.bender.extensions.mediatorMap.api.MediatorFactoryEvent;
-	import robotlegs.extensions.away3dViewMap.api.IAway3DMediator;
-	import robotlegs.extensions.away3dViewMap.api.IAway3DViewMap;
+	import away3d.events.Scene3DEvent;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
+	import robotlegs.bender.extensions.mediatorMap.api.IMediatorMap;
+	import robotlegs.extensions.away3dViewMap.api.IAway3DViewMap;
 
 	/**
 	 * 
@@ -36,8 +32,6 @@ package robotlegs.extensions.away3dViewMap.impl
 		public var view3D:View3D;
 		[Inject]
 		public var mediatorMap : IMediatorMap;
-		[Inject]
-		public var mediatorFactory : IMediatorFactory;
 
 		/*============================================================================*/
 		/* Private Properties                                                         */
@@ -54,20 +48,11 @@ package robotlegs.extensions.away3dViewMap.impl
 		}
 
 		[PostConstruct]
-		public function init() : void {
-			// listen for mediator create events to call initialise(), set view component etc.
-			// via the IAway3DMediator interface
-
-			// Note: listening for MEDIATOR_CREATE events is normally carried out in the DefaultMediatorManager in RL2
-			// the standard set viewComponent and initialize() would work if the DefaultMediatorManager.initializeMediator() method did not cast to flash.display.DisplayObject
-
-			mediatorFactory.addEventListener(MediatorFactoryEvent.MEDIATOR_CREATE, onMediatorCreate);
-			mediatorFactory.addEventListener(MediatorFactoryEvent.MEDIATOR_REMOVE, onMediatorRemove);
-
+		public function init() : void
+		{
 			// listen for ObjectContainer3D events
 			view3D.scene.addEventListener( Scene3DEvent.ADDED_TO_SCENE, onSceneAdded );
 			view3D.scene.addEventListener( Scene3DEvent.REMOVED_FROM_SCENE, onSceneRemoved );
-
 
 			// add scene as view to allow a Away3D Scene Mediator
 			// Note : we don't support swapping scenes now - one scene will do.
@@ -113,30 +98,6 @@ package robotlegs.extensions.away3dViewMap.impl
 		private function onSceneRemoved(event : Scene3DEvent) : void
 		{
 			removeAway3DView(event.objectContainer3D);
-		}
-
-		private function onMediatorCreate(event : MediatorFactoryEvent) : void
-		{
-			initializeMediator(event.view, event.mediator as IAway3DMediator);
-		}
-
-		private function onMediatorRemove(event : MediatorFactoryEvent) : void {
-			destroyMediator(event.mediator as IAway3DMediator);
-		}
-
-		private function initializeMediator(view : *, mediator : IAway3DMediator) : void
-		{
-			if ( mediator ) {
-				mediator.away3d_viewComponent = view;
-				mediator.away3d_initialize();
-			}
-		}
-
-		private function destroyMediator(mediator : IAway3DMediator) : void
-		{
-			if ( mediator ) {
-				mediator.away3d_destroy();
-			}
 		}
 	}
 }

@@ -1,18 +1,22 @@
-package mediators {
-	import flash.utils.setTimeout;
-	import views.Away3DSubView;
-	import away3d.materials.lightpickers.StaticLightPicker;
-	import away3d.lights.PointLight;
+package mediators
+{
 	import away3d.containers.Scene3D;
-	import away3d.materials.ColorMaterial;
-	import away3d.primitives.CubeGeometry;
 	import away3d.entities.Mesh;
-	import robotlegs.extensions.away3dViewMap.api.IAway3DMediator;
+	import away3d.lights.PointLight;
+	import away3d.materials.ColorMaterial;
+	import away3d.materials.lightpickers.StaticLightPicker;
+	import away3d.primitives.CubeGeometry;
+
+	import robotlegs.bender.extensions.mediatorMap.api.IMediator;
+
+	import views.Away3DSubView;
+
+	import flash.utils.setTimeout;
 
 	/**
 	 * @author jamieowen
 	 */
-	public class Away3DScene3DMediator implements IAway3DMediator
+	public class Away3DScene3DMediator implements IMediator
 	{
 		private var _scene:Scene3D;
 		
@@ -26,15 +30,15 @@ package mediators {
 			
 		}
 		
-		public function set away3d_viewComponent(view:*):void
+		public function set viewComponent(view:Object):void
 		{
-			trace( "away3d view comp : " + view + " " + this );
+			trace( "rl2 standard set : " + view );
 			_scene = view as Scene3D;
 		}
 
-		public function away3d_initialize():void
+		public function initialize():void
 		{
-			trace( "away3d initialise : " + this );
+			trace( "rl2 standard init " + this );
 			
 			// add some objects 
 			var light:PointLight = new PointLight();
@@ -60,12 +64,11 @@ package mediators {
 			setTimeout( function():void{
 					scene.removeChild(subView);
 				}, 3000);
-				
 		}
 
-		public function away3d_destroy():void
+		public function destroy():void
 		{
-			trace( "away3d destroy " + this );
+			trace( "rl2 standard destroy " + this );
 		}
 	}
 }

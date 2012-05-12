@@ -1,30 +1,30 @@
 package mediators
 {
-	import robotlegs.extensions.away3dViewMap.api.IAway3DMediator;
+	import robotlegs.bender.extensions.mediatorMap.api.IMediator;
 
 	/**
 	 * @author jamieowen
 	 */
-	public class Away3DSubViewMediator implements IAway3DMediator
+	public class Away3DSubViewMediator implements IMediator
 	{
 		public function Away3DSubViewMediator()
 		{
 			
 		}
-
-		public function set away3d_viewComponent(view:*):void
+		
+		public function set viewComponent(view:Object):void
 		{
-			trace( "away3d view comp : " + view + " " + this );
+			trace( "rl2 standard set : " + view );
 		}
 
-		public function away3d_initialize():void
+		public function initialize():void
 		{
-			trace( "away3d initialise : " + this );
+			trace( "rl2 standard init " + this );
 		}
 
-		public function away3d_destroy():void
+		public function destroy():void
 		{
-			trace( "away3d destroy " + this );
+			trace( "rl2 standard destroy " + this );
 		}
 	}
 }
